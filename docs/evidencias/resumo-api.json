@@ -1,0 +1,16 @@
+{
+  "data": "2026-11-18T13:10:55.997Z",
+  "node": "v24.22.3",
+  "newman": "6.2.3",
+  "requisicoes": {
+    "total": 12,
+    "pending": 0,
+    "failed": 0
+  },
+  "assercoes": {
+    "total": 25,
+    "pending": 0,
+    "failed": 0
+  },
+  "falhas": []
+}

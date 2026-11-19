@@ -6,6 +6,7 @@ import { finalize } from "rxjs/operators";
 import { CabecalhoComponent } from "../../compartilhado/cabecalho/cabecalho.component";
 import { CarregamentoComponent } from "../../compartilhado/carregamento/carregamento.component";
 import { MensagemComponent } from "../../compartilhado/mensagem/mensagem.component";
+import { mensagemErroApi } from "../../compartilhado/mensagem-erro-api";
 import { Produto } from "../produto.model";
 import { ProdutoService } from "../produto.service";
 
@@ -51,9 +52,8 @@ export class ListaProdutosComponent implements OnInit {
         next: (produtos) => {
           this.produtos = produtos;
         },
-        error: () => {
-          this.mensagemErro =
-            "Não foi possível carregar os produtos. Verifique se o Back-End está rodando.";
+        error: (erro) => {
+          this.mensagemErro = mensagemErroApi(erro, "Não foi possível carregar os produtos.");
         },
       });
   }
@@ -76,8 +76,8 @@ export class ListaProdutosComponent implements OnInit {
           this.mensagemSucesso = "Produto excluído com sucesso!";
           this.carregarProdutos();
         },
-        error: () => {
-          this.mensagemErro = "Erro ao excluir o produto.";
+        error: (erro) => {
+          this.mensagemErro = mensagemErroApi(erro, "Erro ao excluir o produto.");
         },
       });
   }

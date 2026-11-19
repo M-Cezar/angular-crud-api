@@ -12,6 +12,7 @@ import { finalize } from "rxjs/operators";
 import { CabecalhoComponent } from "../../compartilhado/cabecalho/cabecalho.component";
 import { CarregamentoComponent } from "../../compartilhado/carregamento/carregamento.component";
 import { MensagemComponent } from "../../compartilhado/mensagem/mensagem.component";
+import { mensagemErroApi } from "../../compartilhado/mensagem-erro-api";
 import { Produto } from "../produto.model";
 import { ProdutoService } from "../produto.service";
 
@@ -84,9 +85,8 @@ export class ProdutoFormularioComponent implements OnInit {
             imagem: produto.imagem,
           });
         },
-        error: () => {
-          this.mensagemErro =
-            "Não foi possível carregar os dados do produto para edição.";
+        error: (erro) => {
+          this.mensagemErro = mensagemErroApi(erro, "Não foi possível carregar os dados do produto para edição.");
         },
       });
   }
@@ -114,8 +114,8 @@ export class ProdutoFormularioComponent implements OnInit {
             this.mensagemSucesso = "Produto atualizado com sucesso!";
             setTimeout(() => this.router.navigate(["/produtos"]), 1500);
           },
-          error: () => {
-            this.mensagemErro = "Erro ao atualizar o produto.";
+          error: (erro) => {
+            this.mensagemErro = mensagemErroApi(erro, "Erro ao atualizar o produto.");
           },
         });
     } else {
@@ -132,8 +132,8 @@ export class ProdutoFormularioComponent implements OnInit {
             this.mensagemSucesso = "Produto cadastrado com sucesso!";
             setTimeout(() => this.router.navigate(["/produtos"]), 1500);
           },
-          error: () => {
-            this.mensagemErro = "Erro ao cadastrar o produto.";
+          error: (erro) => {
+            this.mensagemErro = mensagemErroApi(erro, "Erro ao cadastrar o produto.");
           },
         });
     }

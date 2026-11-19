@@ -36,3 +36,5 @@ Thumbs.db
 !backend/package.json
 !backend/package-lock.json
 !backend/data/produtos.json
+# Ferramentas de validação da raiz
+/node_modules/

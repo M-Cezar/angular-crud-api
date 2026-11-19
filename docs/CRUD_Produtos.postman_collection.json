@@ -1,0 +1,318 @@
+{
+  "info": {
+    "name": "SENAI CRUD de produtos - Kaio Cézar Machado",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Fluxo completo de cadastro, consulta, atualização e exclusão, com respostas de erro 400 e 404. Usa apenas dados fictícios."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "produtoId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "01 Listar produtos",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Retorna lista', () => pm.expect(pm.response.json()).to.be.an('array'));",
+              "pm.collectionVariables.set('quantidadeInicial', pm.response.json().length);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/products"
+      }
+    },
+    {
+      "name": "02 Cadastrar produto válido",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 201', function () { pm.response.to.have.status(201); });",
+              "pm.test('ID gerado pelo servidor', () => pm.expect(pm.response.json().id).to.be.a('number'));",
+              "pm.test('Dados preservados', () => { pm.expect(pm.response.json().nome).to.eql('Teclado Gamer QA'); pm.expect(pm.response.json().preco).to.eql(199.9); });",
+              "pm.collectionVariables.set('produtoId', pm.response.json().id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/products",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"nome\": \"Teclado Gamer QA\", \"descricao\": \"Produto fictício da coleção de testes\", \"categoria\": \"Periféricos\", \"preco\": 199.9, \"imagem\": \"\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "03 Buscar produto cadastrado",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Retorna o ID cadastrado', () => pm.expect(pm.response.json().id).to.eql(Number(pm.collectionVariables.get('produtoId'))));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/products/{{produtoId}}"
+      }
+    },
+    {
+      "name": "04 Atualizar produto",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Nome e preço atualizados', () => { pm.expect(pm.response.json().nome).to.eql('Teclado Gamer QA Atualizado'); pm.expect(pm.response.json().preco).to.eql(229.9); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/products/{{produtoId}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"nome\": \"Teclado Gamer QA Atualizado\", \"descricao\": \"Produto fictício da coleção de testes\", \"categoria\": \"Periféricos\", \"preco\": 229.9, \"imagem\": \"\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "05 Conferir persistência da atualização",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Alteração persistida', () => pm.expect(pm.response.json().preco).to.eql(229.9));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/products/{{produtoId}}"
+      }
+    },
+    {
+      "name": "06 Rejeitar cadastro inválido",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', function () { pm.response.to.have.status(400); });",
+              "pm.test('Mensagem de validação', () => pm.expect(pm.response.json().erro).to.be.a('string'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/products",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"nome\": \"\", \"preco\": 0}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "07 Atualizar ID inexistente",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 404', function () { pm.response.to.have.status(404); });",
+              "pm.test('Produto não encontrado', () => pm.expect(pm.response.json().erro).to.eql('Produto não encontrado'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/products/9999999",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"nome\": \"Teclado Gamer QA Atualizado\", \"descricao\": \"Produto fictício da coleção de testes\", \"categoria\": \"Periféricos\", \"preco\": 229.9, \"imagem\": \"\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "08 Buscar ID inexistente",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 404', function () { pm.response.to.have.status(404); });",
+              "pm.test('Mensagem de inexistência', () => pm.expect(pm.response.json().erro).to.eql('Produto não encontrado')); "
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/products/9999999"
+      }
+    },
+    {
+      "name": "09 Excluir produto cadastrado",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 204', function () { pm.response.to.have.status(204); });",
+              "pm.test('Resposta sem corpo', () => pm.expect(pm.response.text()).to.eql('')); "
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/products/{{produtoId}}"
+      }
+    },
+    {
+      "name": "10 Conferir exclusão",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 404', function () { pm.response.to.have.status(404); });",
+              "pm.test('Produto removido', () => pm.expect(pm.response.json().erro).to.eql('Produto não encontrado')); "
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/products/{{produtoId}}"
+      }
+    },
+    {
+      "name": "11 Rejeitar nova exclusão do mesmo ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 404', function () { pm.response.to.have.status(404); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/products/{{produtoId}}"
+      }
+    },
+    {
+      "name": "12 Conferir lista final",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('ID de teste ausente', () => pm.expect(pm.response.json().some(p => p.id === Number(pm.collectionVariables.get('produtoId')))).to.eql(false));",
+              "pm.test('Quantidade inicial preservada', () => pm.expect(pm.response.json().length).to.eql(Number(pm.collectionVariables.get('quantidadeInicial'))));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/products"
+      }
+    }
+  ]
+}

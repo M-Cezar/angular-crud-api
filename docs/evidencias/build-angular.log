@@ -1,0 +1,40 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> senai-angular-crud-api-validacao@1.0.0 build
+> npm --prefix frontend run build
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> angular-crud-api@0.0.0 build
+> ng build
+
+❯ Building...
+✔ Building...
+Browser bundles     
+Initial chunk files  | Names            |  Raw size | Estimated transfer size
+main-RCP5R55V.js     | main             | 357.56 kB |                95.95 kB
+styles-MN7XFJ6U.css  | styles           | 231.42 kB |                22.85 kB
+
+                     | Initial total    | 588.98 kB |               118.80 kB
+
+
+Server bundles      
+Initial chunk files  | Names            |  Raw size
+server.mjs           | server           | 817.78 kB |                        
+main.server.mjs      | main.server      | 806.78 kB |                        
+polyfills.server.mjs | polyfills.server | 234.18 kB |                        
+chunk-ITOR7NUX.mjs   | -                |   1.38 kB |                        
+chunk-KYQQYI4M.mjs   | -                |   1.01 kB |                        
+
+Lazy chunk files     | Names            |  Raw size
+chunk-RAKAREZO.mjs   | xhr2             |  12.17 kB |                        
+chunk-XDZ7ZLR6.mjs   | xhr2             |  12.08 kB |                        
+
+Prerendered 3 static routes.
+Application bundle generation complete. [4.164 seconds] - 2026-11-18T13:10:25.813Z
+
+▲ [WARNING] bundle initial exceeded maximum budget. Budget 500.00 kB was not met by 88.98 kB with a total of 588.98 kB.
+
+
+Output location: /workspace/scratch/25f524c8c937/senai-angular-crud-api/frontend/dist/angular-crud-api
+

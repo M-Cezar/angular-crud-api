@@ -1,0 +1,92 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> senai-angular-crud-api-validacao@1.0.0 test:api
+> node scripts/testar-api.cjs
+
+(node:18) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+newman
+
+SENAI CRUD de produtos - Kaio Cézar Machado
+
+→ 01 Listar produtos
+  GET http://localhost:3000/api/products [200 OK, 1.72kB, 20ms]
+  ✓  HTTP 200
+  ✓  Retorna lista
+
+→ 02 Cadastrar produto válido
+  POST http://localhost:3000/api/products [201 Created, 415B, 11ms]
+  ✓  HTTP 201
+  ✓  ID gerado pelo servidor
+  ✓  Dados preservados
+
+→ 03 Buscar produto cadastrado
+  GET http://localhost:3000/api/products/7 [200 OK, 410B, 2ms]
+  ✓  HTTP 200
+  ✓  Retorna o ID cadastrado
+
+→ 04 Atualizar produto
+  PUT http://localhost:3000/api/products/7 [200 OK, 421B, 2ms]
+  ✓  HTTP 200
+  ✓  Nome e preço atualizados
+
+→ 05 Conferir persistência da atualização
+  GET http://localhost:3000/api/products/7 [200 OK, 421B, 2ms]
+  ✓  HTTP 200
+  ✓  Alteração persistida
+
+→ 06 Rejeitar cadastro inválido
+  POST http://localhost:3000/api/products [400 Bad Request, 353B, 1ms]
+  ✓  HTTP 400
+  ✓  Mensagem de validação
+
+→ 07 Atualizar ID inexistente
+  PUT http://localhost:3000/api/products/9999999 [404 Not Found, 308B, 2ms]
+  ✓  HTTP 404
+  ✓  Produto não encontrado
+
+→ 08 Buscar ID inexistente
+  GET http://localhost:3000/api/products/9999999 [404 Not Found, 308B, 1ms]
+  ✓  HTTP 404
+  ✓  Mensagem de inexistência
+
+→ 09 Excluir produto cadastrado
+  DELETE http://localhost:3000/api/products/7 [204 No Content, 166B, 2ms]
+  ✓  HTTP 204
+  ✓  Resposta sem corpo
+
+→ 10 Conferir exclusão
+  GET http://localhost:3000/api/products/7 [404 Not Found, 308B, 2ms]
+  ✓  HTTP 404
+  ✓  Produto removido
+
+→ 11 Rejeitar nova exclusão do mesmo ID
+  DELETE http://localhost:3000/api/products/7 [404 Not Found, 308B, 1ms]
+  ✓  HTTP 404
+
+→ 12 Conferir lista final
+  GET http://localhost:3000/api/products [200 OK, 1.72kB, 2ms]
+  ✓  HTTP 200
+  ✓  ID de teste ausente
+  ✓  Quantidade inicial preservada
+
+┌─────────────────────────┬─────────────────┬─────────────────┐
+│                         │        executed │          failed │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              iterations │               1 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│                requests │              12 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│            test-scripts │              12 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│      prerequest-scripts │               0 │               0 │
+├─────────────────────────┼─────────────────┼─────────────────┤
+│              assertions │              25 │               0 │
+├─────────────────────────┴─────────────────┴─────────────────┤
+│ total run duration: 204ms                                   │
+├─────────────────────────────────────────────────────────────┤
+│ total data received: 3.7kB (approx)                         │
+├─────────────────────────────────────────────────────────────┤
+│ average response time: 4ms [min: 1ms, max: 20ms, s.d.: 5ms] │
+└─────────────────────────────────────────────────────────────┘
+Coleção Postman aprovada; dados originais serão restaurados.

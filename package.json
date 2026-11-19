@@ -1,0 +1,14 @@
+{
+  "name": "senai-angular-crud-api-validacao",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Validação da atividade Interação com APIs T04 DF",
+  "scripts": {
+    "test:api": "node scripts/testar-api.cjs",
+    "test:frontend": "npm --prefix frontend test -- --watch=false",
+    "build": "npm --prefix frontend run build"
+  },
+  "devDependencies": {
+    "newman": "6.2.3"
+  }
+}

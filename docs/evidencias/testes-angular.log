@@ -1,0 +1,23 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> senai-angular-crud-api-validacao@1.0.0 test:frontend
+> npm --prefix frontend test -- --watch=false
+
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> angular-crud-api@0.0.0 test
+> ng test --watch=false
+
+❯ Building...
+✔ Building...
+Application bundle generation complete. [1.282 seconds] - 2026-11-18T13:09:58.926Z
+
+
+ RUN  v4.1.10 /workspace/scratch/25f524c8c937/senai-angular-crud-api/frontend
+
+
+ Test Files  4 passed (4)
+      Tests  20 passed (20)
+   Start at  10:09:59
+   Duration  972ms (transform 222ms, setup 771ms, import 298ms, tests 278ms, environment 1.65s)
+
